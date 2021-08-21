@@ -1,23 +1,27 @@
 import React,{useContext} from 'react';
 import { View, Text, StyleSheet,FlatList,Button } from 'react-native';
-import BlogContext from '../context/BlogContext';
+import {Context} from '../context/BlogContext';
+import { Feather } from '@expo/vector-icons'; 
+
 
 
 const IndexScreen = () => {
 
-    const {data, addBlogPost} = useContext(BlogContext);
+    const {state, addBlogPost} = useContext(Context);
     //value == value props in blogContext.provider
     //remeber: React cannot render a object data type
 
     return (
         <View>
-            <Text>Index Screen</Text>
             <Button title = "Add Post" onPress={() => addBlogPost()}/>
             <FlatList
-                data= {data}
+                data= {state}
                 keyExtractor = {blogPost => blogPost.title} //this blogPost can be change in any name
                 renderItem = {({item}) => {
-                    return <Text>{item.title}</Text>
+                    return <View  style ={styles.row}>
+                    <Text style = {styles.title}>{item.title}</Text>
+                    <Feather name="trash" size={24} color="black" />
+                    </View>
                 }}
             />
         </View>
@@ -25,6 +29,21 @@ const IndexScreen = () => {
     );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 20,
+        borderTopWidth: 1 ,
+        paddingHorizontal: 10 ,
+        borderBottomWidth: 1,
+        borderColor: 'gray',
+
+        
+    },
+    title: {
+        fontSize: 18
+    }
+});
 
 export default IndexScreen ;

@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
+import createDataContext from './createDataContext';
 
-const BlogContext  = React.createContext();
+
 
 const blogReducer = (state, action) => {
     switch(action.type){
@@ -12,25 +13,20 @@ const blogReducer = (state, action) => {
 
 };
 
-export const BlogProvider = ({children}) => { //props.children
-
-    const[blogPosts, dispatch] =  useReducer(blogReducer,[]);
-
-    const addBlogPost = () => {
+const addBlogPost = (dispatch) => {
+    return () => {
         dispatch({type: 'add_blogpost'});
-    };
-
-
-
-    return (
-    <BlogContext.Provider value={{data: blogPosts, addBlogPost}}>
-        {children}
-    </BlogContext.Provider>
-    );
+    }
 };
+
+
+
 
 //children is a component in our custom component, in this file the custom is blogcontent.provider
 // children can be used as paremeters
 // generally, throw in a value props and the child get the value prop
 
-export default BlogContext;
+export const {Context, Provider} = createDataContext(
+    blogReducer,
+    {addBlogPost},
+    []);

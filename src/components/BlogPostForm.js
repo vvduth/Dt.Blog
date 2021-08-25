@@ -25,7 +25,16 @@ const BlogPostForm = ({onSubmit , initialValues}) => {
                 onPress = {() => onSubmit(title,content)}
         />
    </View>);
-}
+};
+
+//solution the crash problems when press the press icon, attach empty default value
+BlogPostForm.defaultProps = {
+    initialValues: {
+        title: '',
+        content: ''
+    }
+};
+
 
 const styles = StyleSheet.create({
     input: {

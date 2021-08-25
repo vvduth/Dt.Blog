@@ -5,7 +5,10 @@ import BlogPostForm  from '../components/BlogPostForm';
 
 const EditScreen = ({navigation}) => {
 
-    const {state} = useContext(Context);
+    //navigation object has one funtion all pop, it will help us go back to the previous screen after an action
+    const id = navigation.getParam('id');
+
+    const {state, editBlogPost} = useContext(Context);
 
     const blogPost = state.find(
         blogPost => blogPost.id === navigation.getParam('id') //go throught all blog post and return true for the id thing 
@@ -17,6 +20,8 @@ const EditScreen = ({navigation}) => {
     initialValues = {{title: blogPost.title, content: blogPost.content}}
     onSubmit={(title,content) => {
         //console.log(title,content);
+        //all states are in BlogContext
+        editBlogPost(id, title, content, () => navigation.pop());
     }}/>
     ;
 };

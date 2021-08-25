@@ -16,6 +16,16 @@ const blogReducer = (state, action) => {
                 content: action.payload.content
             }
         ];
+        case 'edit_blogpost' :
+            return state.map((blogPost)=> { 
+                //map function will go throught all the components in the state, return a compo one by one
+                //after that do the code below
+                if(blogPost.id === action.payload.id){
+                    return action.payload;
+                } else {
+                    return blogPost ;
+                }
+            });
         default:
             return state;
     }
@@ -37,6 +47,16 @@ const deleteBlogPost = dispatch => {
     };
 }
 
+const editBlogPost = dispatch => {
+    return(id ,title, content, callback) => {
+            dispatch({type: 'edit_blogpost',payload: {id :id , title: title, content: content}
+        });
+        if (callback){
+            callback(); //if callback exist, call callback
+        }
+    };
+}
+
 
 
 //children is a component in our custom component, in this file the custom is blogcontent.provider
@@ -45,6 +65,6 @@ const deleteBlogPost = dispatch => {
 
 export const {Context, Provider} = createDataContext(
     blogReducer,
-    {addBlogPost, deleteBlogPost},
+    {addBlogPost, deleteBlogPost, editBlogPost},
     [{title: 'TEST POST',content: 'TEST CONTENT', id: 1}]
     );

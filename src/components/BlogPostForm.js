@@ -1,10 +1,13 @@
 import React,{useState} from 'react';
 import { View, Text, StyleSheet , TextInput, Button} from 'react-native';
 
-const BlogPostForm = () => {
+const BlogPostForm = ({onSubmit , initialValues}) => {
+    //have to put onSubmit into the param so that the program can realize the fuction is from CreatScreen.js
+    const[title, setTitle] = useState(initialValues.title);
+    const[content, setContent] = useState(initialValues.content);
 
-    const[title, setTitle] = useState('');
-    const[content, setContent] = useState('');
+    //when we use initial valuse at the first time, it will return undefined 
+    //becuz in creatScreen, there is no prop call initial value
 
     return (<View>
         <Text style = {styles.label}>
@@ -19,6 +22,7 @@ const BlogPostForm = () => {
 
         <Button 
                 title="Save to Blog Posts" 
+                onPress = {() => onSubmit(title,content)}
         />
    </View>);
 }

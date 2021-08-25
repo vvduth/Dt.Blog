@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
-import { TextInput, View, StyleSheet,Text, Button } from 'react-native';
-import {Context} from '../context/BlogContext'
+import {  StyleSheet } from 'react-native';
+import {Context} from '../context/BlogContext';
+import BlogPostForm from '../components/BlogPostForm';
 
 const CreateScreen = ({navigation}) => {
     //the id we parse for each blog post is not as a prop yet so we can not use props.id or {id}
@@ -9,30 +10,12 @@ const CreateScreen = ({navigation}) => {
     //get param is an avaiable fuction in navigation, we have to parse the exactly same key value of
     //the navigate funtion in indexScreen
 
-    const[title, setTitle] = useState('');
-    const[content, setContent] = useState('');
+    
     const {addBlogPost} = useContext(Context);
 
-    return (<View>
-                <Text style = {styles.label}>
-                    Enter title: 
-                </Text>
-                <TextInput style = {styles.input} value={title} onChangeText={(text)=> setTitle(text)} />
+    return <BlogPostForm/>
 
-                <Text style = {styles.label}>
-                    Enter Content: 
-                </Text>
-                <TextInput style = {styles.input} value={content} onChangeText={(text)=> setContent(text)}/>
-
-                <Button 
-                        title="Add to Blog Posts" 
-                        onPress={() => {addBlogPost(title,content,()=> {
-                            navigation.navigate('Index');
-                        });
-                    }}
-                
-                />
-           </View>)
+   
 };
 
 const styles = StyleSheet.create({

@@ -1,10 +1,14 @@
 import React from 'react';
 import createDataContext from './createDataContext';
+import jsonServer from '../api/jsonServer';
 
 
 
 const blogReducer = (state, action) => {
     switch(action.type){
+        case 'get_blogposts':
+            return action.payload; 
+            //we dont need the ... because after fetch the return objs is all the blogposy
         case 'delete_blogpost':
             return state.filter((blogPost)=>(blogPost.id !== action.payload));
             //state is array, filter is a function that put every elements which satisfy the condition in a new one 
@@ -32,11 +36,19 @@ const blogReducer = (state, action) => {
 
 };
 
-const addBlogPost = (dispatch) => {
-    return  (title, content , callback) => {
+const getBlogPosts = dispatch => {
+    return async () => {
+         const response = await jsonServer.get('/blogposts');
+         //response.data === [{},{},{}] every object is one blogpost
+         dispatch({type: 'get_blogposts', payload: response.data});
+    };
+};
 
-            dispatch({type: 'add_blogpost', payload: { title ,  content}});
-            callback();
+const addBlogPost = (dispatch) => {
+    return async (title, content , callback) => {
+            await jsonServer.post('/blogposts', {title, content});
+            //dispatch({type: 'add_blogpost', payload: { title ,  content}});
+            //callback();
 
     };
 };
@@ -65,6 +77,6 @@ const editBlogPost = dispatch => {
 
 export const {Context, Provider} = createDataContext(
     blogReducer,
-    {addBlogPost, deleteBlogPost, editBlogPost},
-    [{title: 'TEST POST',content: 'TEST CONTENT', id: 1}]
+    {addBlogPost, deleteBlogPost, editBlogPost,getBlogPosts},
+    []
     );

@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React,{useContext, useEffect} from 'react';
 import { View, Text, StyleSheet,FlatList,Button, TouchableOpacity } from 'react-native';
 import {Context} from '../context/BlogContext';
 import { Feather, AntDesign } from '@expo/vector-icons'; 
@@ -7,10 +7,19 @@ import { Feather, AntDesign } from '@expo/vector-icons';
 
 const IndexScreen = ({navigation}) => {
 
-    const {state,  deleteBlogPost} = useContext(Context);
+    const {state,  deleteBlogPost, getBlogPosts} = useContext(Context);
     //value == value props in blogContext.provider
     //remeber: React cannot render a object data type
 
+    useEffect(() => {
+        getBlogPosts();
+
+        navigation.addListener('didFocus',() => {
+            getBlogPosts();
+        });
+    }, []); 
+    //use effect is a hook is used for call a bit of code only one time when the app firts rendered
+    //use useEffect hook to avoid the endless loop of getBlogPosts
     return ( 
 
         

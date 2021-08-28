@@ -1,0 +1,24 @@
+{
+  "blogposts": [
+    {
+      "id": 1,
+      "title": "API POST",
+      "content": "content for my post"
+    },
+    {
+      "title": "Hello",
+      "content": "Hi",
+      "id": 3
+    },
+    {
+      "title": "Gym",
+      "content": "Hsja",
+      "id": 6
+    },
+    {
+      "title": "Tui update",
+      "content": "Hu",
+      "id": 7
+    }
+  ]
+}

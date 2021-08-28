@@ -13,10 +13,21 @@ const IndexScreen = ({navigation}) => {
 
     useEffect(() => {
         getBlogPosts();
+        // if we only call getBlogPost, the new blogpost after we add will not
+        // appear on indexScreen, the new blog post is still there, but not appear
+        // because we only call getBlogPost one at the first time the app rendered
 
-        navigation.addListener('didFocus',() => {
+        // so we have to call getBlogPost when we navigate back to index screen
+        //or when the navigate screen appear
+        //to do, we did this
+        const listener = navigation.addListener('didFocus',() => {
             getBlogPosts();
         });
+
+        return () => {
+            listener.remove();
+        };
+
     }, []); 
     //use effect is a hook is used for call a bit of code only one time when the app firts rendered
     //use useEffect hook to avoid the endless loop of getBlogPosts

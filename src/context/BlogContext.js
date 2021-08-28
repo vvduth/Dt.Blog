@@ -13,13 +13,15 @@ const blogReducer = (state, action) => {
             return state.filter((blogPost)=>(blogPost.id !== action.payload));
             //state is array, filter is a function that put every elements which satisfy the condition in a new one 
             // in this case, if the blog post id is not equal to the payload, return true and add it to new state
-        case 'add_blogpost':
+
+
+        /*case 'add_blogpost':
             return [...state,{ 
                 id: Math.floor(Math.random()*99999), //random id for each blog box
                 title :action.payload.title,
                 content: action.payload.content
             }
-        ];
+        ];*/
         case 'edit_blogpost' :
             return state.map((blogPost)=> { 
                 //map function will go throught all the components in the state, return a compo one by one
@@ -48,26 +50,33 @@ const addBlogPost = (dispatch) => {
     return async (title, content , callback) => {
             await jsonServer.post('/blogposts', {title, content});
             //dispatch({type: 'add_blogpost', payload: { title ,  content}});
-            //callback();
+            if(callback){
+                callback();
+            }
 
     };
 };
 
 const deleteBlogPost = dispatch => {
-    return (id) => { //can receive id as an argument
+    return async id => { //can receive id as an argument
+        
+        await jsonServer.delete(`/blogposts/${id}`);
         dispatch({type: 'delete_blogpost', payload: id});
+        
     };
 }
 
 const editBlogPost = dispatch => {
-    return(id ,title, content, callback) => {
+    return async (id ,title, content, callback) => {
+
+            await jsonServer.put(`/blogposts/${id}`,{title,content});
             dispatch({type: 'edit_blogpost',payload: {id :id , title: title, content: content}
         });
         if (callback){
             callback(); //if callback exist, call callback
         }
     };
-}
+};
 
 
 
@@ -80,3 +89,5 @@ export const {Context, Provider} = createDataContext(
     {addBlogPost, deleteBlogPost, editBlogPost,getBlogPosts},
     []
     );
+
+    //gET, POST, PUT, REqest, : 4 mainmedthod in axios

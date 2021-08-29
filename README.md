@@ -34,6 +34,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Demo video
 
+If the video can not be played, please [check here](https://www.youtube.com/watch?v=1MZBlNTLUdA)
+
 https://user-images.githubusercontent.com/86361885/131216212-a4c51018-43db-4cff-8975-c1c00b299ccb.mp4
 
 
